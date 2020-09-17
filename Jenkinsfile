@@ -43,6 +43,23 @@ pipeline {
         }
     }
 
+    stage('Unit Tests') {
+        steps{
+            echo "------------>Unit Tests<------------"
+            sh './gradlew --b build.gradle test --scan'
+        }
+    }
+
+    stage('Static Code Analysis') {
+          steps{
+            echo '------------>Análisis de código estático<------------'
+            withSonarQubeEnv('Sonar') {
+                sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+            }
+          }
+        }
+
+
   }
 
   post {
