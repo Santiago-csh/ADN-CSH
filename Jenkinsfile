@@ -40,7 +40,7 @@ pipeline {
         steps{
             echo "------------>Build<------------"
             //Construir sin tarea test que se ejecutó previamente
-            sh 'gradle --b ./build.gradle clean build'
+            sh './gradlew clean build'
         }
     }
 
