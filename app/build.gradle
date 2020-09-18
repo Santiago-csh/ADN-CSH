@@ -22,11 +22,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+            resValue("string", "PORT_NUMBER", "8081")
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
 jacoco {
-    version "0.8.2"
+    version "0.7.1.201405082137"
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
