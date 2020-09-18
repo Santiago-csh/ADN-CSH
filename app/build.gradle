@@ -27,13 +27,18 @@ android {
             resValue("string", "PORT_NUMBER", "8081")
         }
     }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
 }
 
 jacoco {
-    version "0.8.2"
+    version "0.8.0"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
