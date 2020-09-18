@@ -25,7 +25,7 @@ pipeline {
                 branches: [[name: '*/develop']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [],
-                gitTool: 'Default',
+                gitTool: 'Git_Centos',
                 submoduleCfg: [],
                 userRemoteConfigs: [[
                     credentialsId: 'GitHub_Santiago-csh',
