@@ -13,8 +13,12 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     buildTypes {
@@ -34,7 +38,7 @@ android {
 }
 
 jacoco {
-    version "0.8.0"
+    version "0.8.5"
 }
 
 tasks.withType(Test) {
@@ -42,10 +46,15 @@ tasks.withType(Test) {
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
     reports {
-        xml.enabled true
-        csv.enabled false
+        xml.enabled = true
     }
+}
+
+tasks.withType(JacocoPlugin) {
+    tasks["test"].finalizedBy 'jacocoTestReport'
 }
 
 dependencies {
