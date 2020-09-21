@@ -1,6 +1,5 @@
 package com.ceiba.adn_csh.infraestructura.entidades
 
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -16,10 +15,11 @@ class AlquilerEntidad(
     @Embedded(prefix = "vehiculo_")
     var vehiculo: Vehiculo? = null,
 
-    var horaLlegada: Date? = Date(),
+    var horaLlegada: Date? = null,
 
-    var horaSalida: Date? = Date(),
+    var horaSalida: Date? = null,
 
-    var precio: Double = 0.0
+    var precio: Double = 0.0,
 
+    var activo: Boolean = true
 ){}
