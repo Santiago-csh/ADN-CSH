@@ -1,7 +1,9 @@
 package com.ceiba.adn_csh.dominio.servicios.crear.cadena_excepcion_negocio
 
+import com.ceiba.adn_csh.dominio.excepciones.ExcepcionNegocio
 import com.ceiba.adn_csh.dominio.modelo.Alquiler
 import com.ceiba.adn_csh.utilidades.Constantes
+import java.lang.Exception
 import java.util.regex.Pattern
 
 class FormatoPlaca(val primeraLetraPlaca: CadenaCrearAlquiler): CadenaCrearAlquiler {
@@ -14,7 +16,7 @@ class FormatoPlaca(val primeraLetraPlaca: CadenaCrearAlquiler): CadenaCrearAlqui
             Constantes.MOTOCICLETA to Constantes.EXPRESION_REGULAR_MOTOCICLETAS)
     }
 
-    override fun validar(alquiler: Alquiler): String {
+    override fun validar(alquiler: Alquiler): Boolean {
         for((key, value) in vehiculosFormatoPlacas){
             if(key == alquiler.vehiculo!!.tipoVehiculo!!.toUpperCase()){
                 val patron = Pattern.compile(value)
@@ -23,7 +25,7 @@ class FormatoPlaca(val primeraLetraPlaca: CadenaCrearAlquiler): CadenaCrearAlqui
                 }
             }
         }
-        return "La placa del ${alquiler.vehiculo!!.placa!!.toLowerCase()} no es valida."
+        throw ExcepcionNegocio("La placa del vehiculo no es valida.")
     }
 
 }

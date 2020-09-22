@@ -1,5 +1,6 @@
 package com.ceiba.adn_csh.dominio.servicios.crear.cadena_excepcion_negocio
 
+import com.ceiba.adn_csh.dominio.excepciones.ExcepcionNegocio
 import com.ceiba.adn_csh.dominio.modelo.Alquiler
 import com.ceiba.adn_csh.utilidades.Constantes
 
@@ -13,13 +14,13 @@ class EspacioParqueadero(val cantidadVehiculos: Int, val formatoPlaca: CadenaCre
             Constantes.MOTOCICLETA to Constantes.ESPACIO_MAXIMO_PARA_MOTOCICLETAS)
     }
 
-    override fun validar(alquiler: Alquiler): String {
+    override fun validar(alquiler: Alquiler): Boolean {
         for((key, value) in vehiculosCantidades){
             if(key == alquiler.vehiculo!!.tipoVehiculo!!.toUpperCase() && cantidadVehiculos < value){
                 return formatoPlaca.validar(alquiler)
             }
         }
-        return "Lo sentimos, el parqueadero no tiene espacio para ${alquiler.vehiculo!!.tipoVehiculo!!}."
+        throw ExcepcionNegocio("Lo sentimos, el parqueadero no tiene espacio para ${alquiler.vehiculo!!.tipoVehiculo!!.toLowerCase()}.")
     }
 
 }

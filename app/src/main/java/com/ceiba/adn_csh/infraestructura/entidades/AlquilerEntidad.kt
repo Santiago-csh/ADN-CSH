@@ -11,15 +11,10 @@ class AlquilerEntidad(
 
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-
     @Embedded(prefix = "vehiculo_")
     var vehiculo: Vehiculo? = null,
-
-    var horaLlegada: Date? = null,
-
-    var horaSalida: Date? = null,
-
+    var fechaLlegada: Date? = null,
+    var fechaSalida: Date? = Date(),
     var precio: Double = 0.0,
-
     var activo: Boolean = true
 ){}

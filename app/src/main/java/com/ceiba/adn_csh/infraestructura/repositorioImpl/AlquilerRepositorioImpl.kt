@@ -4,6 +4,7 @@ import com.ceiba.adn_csh.dominio.modelo.Alquiler
 import com.ceiba.adn_csh.dominio.repositorio.AlquilerRepositorio
 import com.ceiba.adn_csh.infraestructura.dao.AlquilerDao
 import com.ceiba.adn_csh.infraestructura.entidades.AlquilerEntidad
+import kotlinx.coroutines.runBlocking
 import javax.inject.Singleton
 import javax.inject.Inject
 
@@ -16,23 +17,23 @@ class AlquilerRepositorioImpl @Inject constructor(alquilerDao: AlquilerDao) : Al
         this.alquilerDao = alquilerDao
     }
 
-    override fun crearAlquiler(alquiler: Alquiler): Boolean {
-        TODO("Not yet implemented")
+    override fun crearAlquiler(alquiler: Alquiler) = runBlocking {
+        val alquilerEntidad = AlquilerEntidad()
+        alquilerEntidad.vehiculo = alquiler.vehiculo
+        alquilerEntidad.fechaLlegada = alquiler.fechaLlegada
+        return@runBlocking alquilerDao.insert(alquilerEntidad) != 0L
     }
 
-    override fun estaAlquilado(): Boolean {
-        TODO("Not yet implemented")
+    override fun vehiculoAlquilado(placa: String): Boolean {
+        return alquilerDao.vehiculoAlquilado(placa)
     }
 
     override fun obtenerCantidadVehiculosAlquiladosPorTipo(tipoVehiculo: String): Int {
         return alquilerDao.obtenerCantidadVehiculosAlquiladosPorTipo(tipoVehiculo)
     }
 
-    fun convertirAEntidad(alquiler: Alquiler): AlquilerEntidad{
-        val alquilerEntidad = AlquilerEntidad()
-        alquilerEntidad.vehiculo = alquiler.vehiculo
-        alquilerEntidad.horaLlegada = alquiler.horaLlegada
-        return alquilerEntidad
+    override fun obtenerTotalAlquileres(): Int {
+        return alquilerDao.obtenerTotalAlquileres()
     }
 
 }

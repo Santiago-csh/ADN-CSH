@@ -1,5 +1,5 @@
 package com.ceiba.adn_csh.dominio.excepciones
 
-import java.lang.Exception
-
-class ExcepcionNegocio(mensaje: String): Exception()
+class ExcepcionNegocio(val mensaje: String): Exception(){
+    override val message: String = mensaje
+}

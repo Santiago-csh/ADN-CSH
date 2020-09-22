@@ -5,7 +5,8 @@ import com.ceiba.adn_csh.dominio.modelo.Alquiler
 interface AlquilerRepositorio {
 
     fun crearAlquiler(alquiler: Alquiler): Boolean
-    fun estaAlquilado(): Boolean
+    fun vehiculoAlquilado(placa: String): Boolean
     fun obtenerCantidadVehiculosAlquiladosPorTipo(tipoVehiculo: String): Int
+    fun obtenerTotalAlquileres(): Int
 
 }
