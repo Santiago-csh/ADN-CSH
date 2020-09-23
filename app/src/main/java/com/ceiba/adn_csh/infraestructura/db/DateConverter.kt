@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.infraestructura
+package com.ceiba.adn_csh.infraestructura.db
 
 import androidx.room.TypeConverter
 import java.util.*

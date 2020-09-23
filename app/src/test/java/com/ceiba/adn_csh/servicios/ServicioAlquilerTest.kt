@@ -3,11 +3,8 @@ package com.ceiba.adn_csh.servicios
 import android.util.Log
 import com.ceiba.adn_csh.datos.ObjetoAlquiler
 import com.ceiba.adn_csh.dominio.excepciones.ExcepcionNegocio
-import com.ceiba.adn_csh.dominio.modelo.Alquiler
 import com.ceiba.adn_csh.dominio.repositorio.AlquilerRepositorio
-import com.ceiba.adn_csh.dominio.servicios.crear.ServicioCrearAlquiler
-import com.ceiba.adn_csh.dominio.servicios.crear.ServicioCrearAlquilerImpl
-import com.ceiba.adn_csh.infraestructura.repositorioImpl.AlquilerRepositorioImpl
+import com.ceiba.adn_csh.dominio.servicios.alquiler.ServicioAlquilerImpl
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -15,13 +12,12 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.mockito.*
 import java.lang.Exception
-import java.lang.NullPointerException
 import java.util.*
 
-class ServicioCrearAlquilerTest {
+class ServicioAlquilerTest {
 
     @InjectMocks
-    lateinit var servicioCrearAlquiler: ServicioCrearAlquilerImpl
+    lateinit var servicioCrearAlquiler: ServicioAlquilerImpl
 
     @Mock
     lateinit var alquilerRepositorio: AlquilerRepositorio

@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.infraestructura.entidades
+package com.ceiba.adn_csh.infraestructura.db.entidades
 
 import androidx.room.Embedded
 import androidx.room.Entity

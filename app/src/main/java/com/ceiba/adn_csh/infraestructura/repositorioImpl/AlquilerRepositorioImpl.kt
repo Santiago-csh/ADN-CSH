@@ -1,10 +1,13 @@
 package com.ceiba.adn_csh.infraestructura.repositorioImpl
 
+import com.ceiba.adn_csh.dominio.excepciones.ExcepcionNegocio
 import com.ceiba.adn_csh.dominio.modelo.Alquiler
 import com.ceiba.adn_csh.dominio.repositorio.AlquilerRepositorio
-import com.ceiba.adn_csh.infraestructura.dao.AlquilerDao
-import com.ceiba.adn_csh.infraestructura.entidades.AlquilerEntidad
+import com.ceiba.adn_csh.infraestructura.db.dao.AlquilerDao
+import com.ceiba.adn_csh.infraestructura.db.entidades.AlquilerEntidad
 import kotlinx.coroutines.runBlocking
+import java.lang.Exception
+import java.util.*
 import javax.inject.Singleton
 import javax.inject.Inject
 
@@ -20,8 +23,10 @@ class AlquilerRepositorioImpl @Inject constructor(alquilerDao: AlquilerDao) : Al
     override fun crearAlquiler(alquiler: Alquiler) = runBlocking {
         val alquilerEntidad = AlquilerEntidad()
         alquilerEntidad.vehiculo = alquiler.vehiculo
-        alquilerEntidad.fechaLlegada = alquiler.fechaLlegada
-        return@runBlocking alquilerDao.insert(alquilerEntidad) != 0L
+        alquilerEntidad.fechaLlegada = Date()
+        if(alquilerDao.insert(alquilerEntidad) == 0L) {
+            throw ExcepcionNegocio("El alquiler no se pudo agregar, intentalo mas tarde.")
+        }
     }
 
     override fun vehiculoAlquilado(placa: String): Boolean {

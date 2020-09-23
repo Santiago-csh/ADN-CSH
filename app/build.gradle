@@ -42,6 +42,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 jacoco {
@@ -70,6 +73,13 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
     def dagger_version = "2.26"
     implementation "com.google.dagger:dagger:$dagger_version"

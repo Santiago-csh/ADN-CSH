@@ -1,11 +1,10 @@
-package com.ceiba.adn_csh.infraestructura.dao
+package com.ceiba.adn_csh.infraestructura.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ceiba.adn_csh.dominio.modelo.Alquiler
-import com.ceiba.adn_csh.infraestructura.entidades.AlquilerEntidad
+import com.ceiba.adn_csh.infraestructura.db.entidades.AlquilerEntidad
 
 @Dao interface AlquilerDao {
 
