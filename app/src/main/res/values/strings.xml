@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">ADN-CSH</string>
+    <string name="app_name">Parqueadero</string>
     <string name="title_activity_dashboard">MainActivity</string>
-    <string name="title_lista_alquiler">Alquileres</string>
-    <string name="title_crear_alquiler">Crear Alquiler</string>
+    <string name="title_list_rental">Alquileres</string>
+    <string name="title_create_rental">Crear Alquiler</string>
+    <string name="plate">Placa</string>
+    <string name="cylinder_capacity">Cilindraje</string>
+    <string name="add">Agregar</string>
+    <string name="loading_date">Cargando fecha...</string>
+    <string name="loading_plate">Cargando placa...</string>
 </resources>

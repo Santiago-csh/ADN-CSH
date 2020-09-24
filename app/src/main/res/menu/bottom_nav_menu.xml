@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_lista_alquiler"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_lista_alquiler" />
+        android:id="@+id/navigation_list_rental"
+        android:icon="@drawable/ic_baseline_list_24"
+        android:title="@string/title_list_rental" />
 
     <item
-        android:id="@+id/navigation_crear_alquiler"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_crear_alquiler" />
+        android:id="@+id/navigation_create_rental"
+        android:icon="@drawable/ic_baseline_add_circle_24"
+        android:title="@string/title_create_rental" />
 
 </menu>

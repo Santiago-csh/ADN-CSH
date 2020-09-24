@@ -1,7 +1,7 @@
 package com.ceiba.adn_csh
 
 import android.app.Application
-import com.ceiba.adn_csh.dominio.di.DaggerAppComponente
+import com.ceiba.adn_csh.dominio.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -14,7 +14,7 @@ class App: Application(), HasAndroidInjector {
 
     override fun onCreate(){
         super.onCreate()
-        DaggerAppComponente.builder().application(this)!!.build().inject(this)
+        DaggerAppComponent.builder().application(this)!!.build().inject(this)
     }
 
     override fun androidInjector(): AndroidInjector<Any> {

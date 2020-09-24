@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_lista_alquiler">
+    app:startDestination="@+id/navigation_list_rental">
 
     <fragment
-        android:id="@+id/navigation_lista_alquiler"
-        android:name="com.ceiba.adn_csh.presentacion.fragmento.ListaAlquileresFragmento"
-        android:label="@string/title_lista_alquiler"
-        tools:layout="@layout/fragment_lista_alquileres" />
+        android:id="@+id/navigation_list_rental"
+        android:name="com.ceiba.adn_csh.presentation.rental.RentalListFragment"
+        android:label="@string/title_list_rental"
+        tools:layout="@layout/rental_list_fragment" />
 
     <fragment
-        android:id="@+id/navigation_crear_alquiler"
-        android:name="com.ceiba.adn_csh.presentacion.fragmento.CrearAlquilerFragmento"
-        android:label="@string/title_crear_alquiler"
-        tools:layout="@layout/fragment_crear_alquiler" />
+        android:id="@+id/navigation_create_rental"
+        android:name="com.ceiba.adn_csh.presentation.rental.RentalCreateFragment"
+        android:label="@string/title_create_rental"
+        tools:layout="@layout/rental_create_fragment" />
 
 </navigation>
