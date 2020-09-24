@@ -7,5 +7,6 @@ interface RentalService {
 
     fun createRental(rental: Rental)
     fun getActiveRentals(): LiveData<List<Rental>>
-
+    fun getActiveRentalById(id: Long): LiveData<Rental>
+    fun updateRentalMakePayment(rental: Rental)
 }

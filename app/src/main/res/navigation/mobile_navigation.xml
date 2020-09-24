@@ -9,12 +9,24 @@
         android:id="@+id/navigation_list_rental"
         android:name="com.ceiba.adn_csh.presentation.rental.RentalListFragment"
         android:label="@string/title_list_rental"
-        tools:layout="@layout/rental_list_fragment" />
+        tools:layout="@layout/rental_list_fragment">
+
+        <action
+            android:id="@+id/actionRentalDetailFragment"
+            app:destination="@id/navigation_detail_rental" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_create_rental"
         android:name="com.ceiba.adn_csh.presentation.rental.RentalCreateFragment"
         android:label="@string/title_create_rental"
         tools:layout="@layout/rental_create_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_detail_rental"
+        android:name="com.ceiba.adn_csh.presentation.rental.RentalDetailFragment"
+        android:label="@string/title_detail_rental"
+        tools:layout="@layout/fragment_rental_detail" />
 
 </navigation>

@@ -1,11 +1,8 @@
 package com.ceiba.adn_csh.infraestructure.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.ceiba.adn_csh.infraestructure.db.entidades.RentalEntity
+import androidx.room.*
+import com.ceiba.adn_csh.infraestructure.db.entity.RentalEntity
 
 @Dao interface RentalDao {
 
@@ -20,5 +17,11 @@ import com.ceiba.adn_csh.infraestructure.db.entidades.RentalEntity
 
     @Query("SELECT * FROM rental r WHERE r.active = 1")
     fun getActiveRentals(): LiveData<List<RentalEntity>>
+
+    @Query("SELECT * FROM rental r WHERE r.id = :id")
+    fun getActiveRentalById(id: Long): LiveData<RentalEntity>
+
+    @Update
+    suspend fun updateRentalMakePayment(rentalEntity: RentalEntity)
 
 }

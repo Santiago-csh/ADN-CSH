@@ -1,10 +1,11 @@
-package com.ceiba.adn_csh.dominio.service.rental.business_exception_chain
+package com.ceiba.adn_csh.dominio.service.rental.business_responsability_chain.create_rental_chain
 
 import com.ceiba.adn_csh.dominio.exception.BusinessException
 import com.ceiba.adn_csh.dominio.model.Rental
 import java.util.*
 
-class FirstPlateLetter: CreateRentalChain {
+class FirstPlateLetter:
+    CreateRentalChain {
 
     override fun validate(rental: Rental): Boolean {
         if (rental.vehicle!!.plate!![0].toUpperCase() == 'A') {

@@ -31,10 +31,10 @@ class RentalCreateFragment : Fragment() {
     private lateinit var rentalCreateFragmentBinding: RentalCreateFragmentBinding
 
     @Inject
-    lateinit var modelFactory: ViewModelProvider.Factory
+    lateinit var modelViewFactory: ViewModelProvider.Factory
 
     private val rentalViewModel by lazy {
-        ViewModelProvider(this, modelFactory)[RentalViewModel::class.java]
+        ViewModelProvider(this, modelViewFactory)[RentalViewModel::class.java]
     }
 
     override fun onAttach(context: Context) {
@@ -75,7 +75,7 @@ class RentalCreateFragment : Fragment() {
 
     private fun createRental(plate: String, cylinderCapacity: Int, typeVehicle: String) {
         val vehicle = Vehicle(plate, cylinderCapacity, typeVehicle)
-        val rental = Rental(vehicle = vehicle, arrivalDate = Date())
+        val rental = Rental(vehicle = vehicle, arrivalDate = Date(), departureDate = Date())
         lifecycleScope.launch {
             try {
                 withContext(Dispatchers.IO){ rentalViewModel.createRental(rental) }

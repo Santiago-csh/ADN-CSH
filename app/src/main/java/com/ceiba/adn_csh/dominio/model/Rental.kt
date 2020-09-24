@@ -1,6 +1,6 @@
 package com.ceiba.adn_csh.dominio.model
 
-import com.ceiba.adn_csh.infraestructure.db.entidades.RentalEntity
+import com.ceiba.adn_csh.infraestructure.db.entity.RentalEntity
 import java.util.*
 
 class Rental(
@@ -12,7 +12,7 @@ class Rental(
     var active: Boolean = true){
 
     fun convertRentalToRentalEntity(): RentalEntity {
-        return RentalEntity(vehicle = vehicle, arrivalDate = arrivalDate)
+        return RentalEntity(id, vehicle, arrivalDate, departureDate, price, active)
     }
 
 }

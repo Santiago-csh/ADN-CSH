@@ -9,5 +9,6 @@ interface RentalRepository {
     fun rentedVehicle(plate: String): Boolean
     fun getQuantityOfRentedVehiclesByType(vehicleType: String): Int
     fun getActiveRentals(): LiveData<List<Rental>>
-
+    fun getActiveRentalById(id: Long): LiveData<Rental>
+    fun updateRentalMakePayment(rental: Rental)
 }

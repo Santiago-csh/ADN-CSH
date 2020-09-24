@@ -13,6 +13,7 @@ class RentalViewModel @Inject constructor(rentalService: RentalService): ViewMod
 
     var rentalService: RentalService
     var rentals: LiveData<List<Rental>>
+    lateinit var rental: LiveData<Rental>
 
     init {
         this.rentalService = rentalService
@@ -22,6 +23,15 @@ class RentalViewModel @Inject constructor(rentalService: RentalService): ViewMod
     @Throws(Exception::class)
     fun createRental(rental: Rental){
         return rentalService.createRental(rental)
+    }
+
+    fun getActiveRentalById(id: Long){
+        rental = rentalService.getActiveRentalById(id)
+    }
+
+    @Throws(Exception::class)
+    fun updateRentalByPayment(){
+        rentalService.updateRentalMakePayment(rental.value!!)
     }
 
 }

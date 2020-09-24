@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.infraestructure.db.entidades
+package com.ceiba.adn_csh.infraestructure.db.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -15,7 +15,7 @@ class RentalEntity(
     @Embedded(prefix = "vehicle_")
     var vehicle: Vehicle? = null,
     var arrivalDate: Date? = null,
-    var departureDate: Date? = Date(),
+    var departureDate: Date? = null,
     var price: Double = 0.0,
     var active: Boolean = true){
 

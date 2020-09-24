@@ -1,10 +1,11 @@
-package com.ceiba.adn_csh.dominio.service.rental.business_exception_chain
+package com.ceiba.adn_csh.dominio.service.rental.business_responsability_chain.create_rental_chain
 
 import com.ceiba.adn_csh.dominio.exception.BusinessException
 import com.ceiba.adn_csh.dominio.model.Rental
 import com.ceiba.adn_csh.utilidades.Constantes
 
-class ParkingSpace(val numberOfVehiclesCreated: Int, val plateFormat: CreateRentalChain): CreateRentalChain {
+class ParkingSpace(val numberOfVehiclesCreated: Int, val plateFormat: CreateRentalChain):
+    CreateRentalChain {
 
     private var amountOfVehicleSpace: Map<String, Int>
 

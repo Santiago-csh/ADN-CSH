@@ -35,11 +35,21 @@ class RentalRepositoryImpl @Inject constructor(rentalDao: RentalDao) : RentalRep
     }
 
     override fun getActiveRentals(): LiveData<List<Rental>> {
-        val rentalsEntity = rentalDao.getActiveRentals()
-        return Transformations.map(rentalsEntity) { rentalListEntity ->
+        return Transformations.map(rentalDao.getActiveRentals()) { rentalListEntity ->
             rentalListEntity.map { rentalEntity ->
                 rentalEntity.convertRentalEntityToRentalDTO()
             }
         }
+    }
+
+    override fun getActiveRentalById(id: Long): LiveData<Rental> {
+        return Transformations.map(rentalDao.getActiveRentalById(id)) { rentalEntity ->
+            rentalEntity.convertRentalEntityToRentalDTO()
+        }
+    }
+
+    override fun updateRentalMakePayment(rental: Rental) = runBlocking {
+        val rentalEntity = rental.convertRentalToRentalEntity()
+        rentalDao.updateRentalMakePayment(rentalEntity)
     }
 }
