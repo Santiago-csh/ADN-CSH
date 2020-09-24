@@ -1,7 +1,8 @@
-package com.ceiba.adn_csh.servicios
+package com.ceiba.adn_csh.service
 
 import android.util.Log
-import com.ceiba.adn_csh.datos.RentalBuilder
+import androidx.lifecycle.LiveData
+import com.ceiba.adn_csh.build.RentalBuilder
 import com.ceiba.adn_csh.dominio.exception.BusinessException
 import com.ceiba.adn_csh.dominio.repository.RentalRepository
 import com.ceiba.adn_csh.dominio.service.rental.RentalServiceImpl
@@ -14,7 +15,7 @@ import org.mockito.*
 import java.lang.Exception
 import java.util.*
 
-class ServicioRentalTest {
+class RentalServiceTest {
 
     @InjectMocks
     lateinit var servicioCrearAlquiler: RentalServiceImpl
@@ -118,4 +119,75 @@ class ServicioRentalTest {
             Log.e("ServicioCrearAlquiler", "", e)
         }
     }
+
+    @Test
+    fun listRentals(){
+        val rentalList = RentalBuilder().createRentalList()
+        Mockito.`when`(rentalRepository.getActiveRentals()).thenReturn(rentalList)
+
+        val result = servicioCrearAlquiler.getActiveRentals()
+
+        Assert.assertEquals(rentalList, result)
+    }
+
+    @Test
+    fun getCarPriceWithHoursAndWithoutDays(){
+        val rental = RentalBuilder().createRentCarWithHoursAndWithoutDays()
+        val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
+        val hoursInParking = timeInParking / 3600000
+        val expectedPrice = (hoursInParking * 1000)
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(expectedPrice, response.toLong())
+    }
+
+    @Test
+    fun getCarPriceWithDaysAndWithoutHours(){
+        val rental = RentalBuilder().createRentCarWithDaysAndWithoutHours()
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(16000, response.toLong())
+    }
+
+    @Test
+    fun getCarPriceWithDaysAndHours(){
+        val rental = RentalBuilder().createRentCarWithDaysAndHours()
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(15000, response.toLong())
+    }
+
+    @Test
+    fun getMotorcyclePriceWithCylinderCapacityOfLessOrEqualsThanFiveHundredWithHoursAndWithoutDays(){
+        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityLessOrEqualsThanFiveHundredWithHoursAndWithoutDays()
+        val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
+        val hoursInParking = timeInParking / 3600000
+        val expectedPrice = (hoursInParking * 500)
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(expectedPrice, response.toLong())
+    }
+
+    @Test
+    fun getMotorcyclePriceWithCylinderCapacityOfGreaterThanFiveHundredWithDaysAndWithoutHours(){
+        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndWithoutHours()
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(18000, response.toLong())
+    }
+
+    @Test
+    fun getMotorcyclePriceWithCylinderCapacityOfGreaterThanFiveHundredWithHoursAndDays(){
+        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndHours()
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(25500, response.toLong())
+    }
+
 }

@@ -9,4 +9,6 @@ interface RentalService {
     fun getActiveRentals(): LiveData<List<Rental>>
     fun getActiveRentalById(id: Long): LiveData<Rental>
     fun updateRentalMakePayment(rental: Rental)
+    fun calculateVehiclePrice(rental: Rental): Double
+
 }

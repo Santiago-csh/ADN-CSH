@@ -64,15 +64,19 @@ class RentalServiceImpl @Inject constructor(rentalRepository: RentalRepository):
 
     override fun updateRentalMakePayment(rental: Rental) {
         try{
-            val calculatePricePerCylinder = CalculatePricePerCylinder()
-            val calculateBasePrice = CalculateBasePrice(calculatePricePerCylinder)
+            rental.price = calculateVehiclePrice(rental)
             rental.departureDate = Date()
-            rental.price = calculateBasePrice.addValue(rental)
             rental.active = false
             rentalRepository.updateRentalMakePayment(rental)
         }catch (error: Exception){
             Log.e("Service-UpdateRental", "", error)
             throw error
         }
+    }
+
+    override fun calculateVehiclePrice(rental: Rental): Double {
+        val calculatePricePerCylinder = CalculatePricePerCylinder()
+        val calculateBasePrice = CalculateBasePrice(calculatePricePerCylinder)
+        return calculateBasePrice.addValue(rental)
     }
 }

@@ -26,15 +26,16 @@ class CalculateBasePrice(calculatePricePerCylinder: CalculatePricePerCylinder): 
 
     override fun addValue(rental: Rental): Double {
         val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
-        val minutesInParking = timeInParking / 6000
+        val minutesInParking = timeInParking / 60000
         var hoursInParking = minutesInParking / 60
         var daysInParking = hoursInParking / 24
+        if((minutesInParking - (hoursInParking*60)) > 0){
+            hoursInParking += 1
+        }
+        hoursInParking = hoursInParking - (daysInParking*24)
         if(hoursInParking >= 9){
             daysInParking += 1
             hoursInParking = 0
-        }
-        if(minutesInParking > 0){
-            hoursInParking += 1
         }
         var price: Double = valuePerDayVehicle[rental.vehicle!!.vehicleType!!.toUpperCase()]!! * daysInParking
         price += valuePerHourVehicle[rental.vehicle!!.vehicleType!!.toUpperCase()]!! * hoursInParking
