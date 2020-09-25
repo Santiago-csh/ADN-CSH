@@ -32,7 +32,7 @@ class CalculateBasePrice(calculatePricePerCylinder: CalculatePricePerCylinder): 
         if((minutesInParking - (hoursInParking*60)) > 0){
             hoursInParking += 1
         }
-        hoursInParking = hoursInParking - (daysInParking*24)
+        hoursInParking -= (daysInParking * 24)
         if(hoursInParking >= 9){
             daysInParking += 1
             hoursInParking = 0

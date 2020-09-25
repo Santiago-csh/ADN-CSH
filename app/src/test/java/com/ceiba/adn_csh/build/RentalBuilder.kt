@@ -66,42 +66,57 @@ class RentalBuilder {
         return MutableLiveData(lists)
     }
 
+    fun createRentCarWithHoursAndMinutes(): Rental {
+        vehicle = VehicleBuilder().createCarPlateGood()
+        return bindRentalWithModifiedDepartureDateHoursAndMinutes(0,15)
+    }
+
     fun createRentCarWithHoursAndWithoutDays(): Rental {
         vehicle = VehicleBuilder().createCarPlateGood()
-        return bindRentalWithModifiedDepartureDate(6)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(6)
     }
 
     fun createRentCarWithDaysAndWithoutHours(): Rental {
         vehicle = VehicleBuilder().createCarPlateGood()
-        return bindRentalWithModifiedDepartureDate(33)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(33)
     }
 
     fun createRentCarWithDaysAndHours(): Rental {
         vehicle = VehicleBuilder().createCarPlateGood()
-        return bindRentalWithModifiedDepartureDate(31)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(31)
+    }
+
+    fun createRentMotorcycleCylinderCapacityOfGreaterThanFiveHundredWithHoursAndMinutes(): Rental {
+        vehicle = VehicleBuilder().createMotorcycleCylinderCapacityGreaterThanFiveHundred()
+        return bindRentalWithModifiedDepartureDateHoursAndMinutes(0,20)
     }
 
     fun createRentMotorcycleCylinderCapacityLessOrEqualsThanFiveHundredWithHoursAndWithoutDays(): Rental {
         vehicle = VehicleBuilder().createMotorcycleCylinderCapacityLessOrEqualsThanFiveHundred()
-        return bindRentalWithModifiedDepartureDate(8)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(8)
     }
 
     fun createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndWithoutHours(): Rental {
         vehicle = VehicleBuilder().createMotorcycleCylinderCapacityGreaterThanFiveHundred()
-        return bindRentalWithModifiedDepartureDate(85)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(85)
     }
 
     fun createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndHours(): Rental {
         vehicle = VehicleBuilder().createMotorcycleCylinderCapacityGreaterThanFiveHundred()
-        return bindRentalWithModifiedDepartureDate(127)
+        return bindRentalWithModifiedDepartureDateHoursOrDays(127)
     }
 
     fun bindSimpleRental(): Rental{
         return Rental(id, vehicle!!, arrivalDate, departureDate, price, active)
     }
 
-    fun bindRentalWithModifiedDepartureDate(valueHour: Int): Rental{
+    fun bindRentalWithModifiedDepartureDateHoursOrDays(valueHour: Int): Rental{
         calendar[Calendar.HOUR] = calendar[Calendar.HOUR] + valueHour
+        return Rental(id, vehicle!!, arrivalDate, calendar.time, price, active)
+    }
+
+    fun bindRentalWithModifiedDepartureDateHoursAndMinutes(valueHours: Int, valueMinutes: Int): Rental{
+        calendar[Calendar.MINUTE] = calendar[Calendar.MINUTE] + valueMinutes
         return Rental(id, vehicle!!, arrivalDate, calendar.time, price, active)
     }
 }

@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             app:imageUrl="@{rental.vehicle.vehicleType}"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_baseline_directions_car_black_24"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
@@ -40,6 +39,17 @@
             app:layout_constraintHorizontal_bias="0.05" />
 
         <TextView
+            android:id="@+id/tvCylinderVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:valueCylinder="@{rental.vehicle.cylinderCapacity}"
+            android:hint="@string/loading_cylinder"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPlateVehicle" />
+
+        <TextView
             android:id="@+id/tvArrivalDateVehicle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +58,7 @@
             android:textColor="@android:color/holo_green_dark"
             android:layout_marginTop="@dimen/ten_dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlateVehicle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCylinderVehicle" />
 
         <TextView
             android:id="@+id/tvDepartureDateVehicle"

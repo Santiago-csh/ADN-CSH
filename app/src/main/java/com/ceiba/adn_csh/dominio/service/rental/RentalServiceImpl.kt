@@ -64,8 +64,8 @@ class RentalServiceImpl @Inject constructor(rentalRepository: RentalRepository):
 
     override fun updateRentalMakePayment(rental: Rental) {
         try{
-            rental.price = calculateVehiclePrice(rental)
             rental.departureDate = Date()
+            rental.price = calculateVehiclePrice(rental)
             rental.active = false
             rentalRepository.updateRentalMakePayment(rental)
         }catch (error: Exception){

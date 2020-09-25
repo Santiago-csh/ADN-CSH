@@ -40,7 +40,13 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("valuePrice")
     fun bindPriceVehicle(textView: TextView, valuePrice: Double) {
-        val formatoImporte = NumberFormat.getCurrencyInstance(Locale("es","CO"));
+        val formatoImporte = NumberFormat.getCurrencyInstance(Locale("es","CO"))
         textView.setText(StringBuilder().append("Precio: ").append(formatoImporte.format(valuePrice)))
+    }
+
+    @JvmStatic
+    @BindingAdapter("valueCylinder")
+    fun bindCylinderVehicle(textView: TextView, valueCylinder: Int) {
+        textView.setText(StringBuilder().append("Cilindraje: ").append(valueCylinder))
     }
 }

@@ -131,6 +131,22 @@ class RentalServiceTest {
     }
 
     @Test
+    fun getCarPriceWithHoursAndMinutes(){
+        val rental = RentalBuilder().createRentCarWithHoursAndMinutes()
+        val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
+        val minutesInParking = timeInParking / 60000
+        var hoursInParking = minutesInParking / 60
+        if((minutesInParking - (hoursInParking*60)) > 0){
+            hoursInParking += 1
+        }
+        val expectedPrice = (hoursInParking * 1000)
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(expectedPrice, response.toLong())
+    }
+
+    @Test
     fun getCarPriceWithHoursAndWithoutDays(){
         val rental = RentalBuilder().createRentCarWithHoursAndWithoutDays()
         val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
@@ -158,6 +174,22 @@ class RentalServiceTest {
         val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
 
         Assert.assertEquals(15000, response.toLong())
+    }
+
+    @Test
+    fun getMotorcyclePriceCylinderCapacityOfGreaterThanFiveHundredWithHoursAndMinutes(){
+        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityOfGreaterThanFiveHundredWithHoursAndMinutes()
+        val timeInParking = (rental.departureDate!!.time - rental.arrivalDate!!.time)
+        val minutesInParking = timeInParking / 60000
+        var hoursInParking = minutesInParking / 60
+        if((minutesInParking - (hoursInParking*60)) > 0){
+            hoursInParking += 1
+        }
+        val expectedPrice = (hoursInParking * 500) + 2000
+
+        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
+
+        Assert.assertEquals(expectedPrice, response.toLong())
     }
 
     @Test
