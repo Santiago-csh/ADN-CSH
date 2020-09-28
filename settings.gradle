@@ -1,2 +1,4 @@
-include ':app'
+include ':domain'
+include ':infraestructure'
+include ':presentation'
 rootProject.name = "ADN-CSH"

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".rental.RentalDetailFragment">
+    
+    <data>
+        <variable
+            name="rental"
+            type="com.ceiba.domain.model.Rental" />
+    </data>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/ten_dp"
+        android:padding="@dimen/ten_dp">
+        
+        <ImageView
+            android:id="@+id/imgVehicleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:imageUrl="@{rental.vehicle.vehicleType}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvPlateVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{rental.vehicle.plate}"
+            android:hint="@string/loading_plate"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/imgVehicleType"
+            app:layout_constraintTop_toTopOf="@id/imgVehicleType"
+            app:layout_constraintBottom_toBottomOf="@id/imgVehicleType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05" />
+
+        <TextView
+            android:id="@+id/tvCylinderVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:valueCylinder="@{rental.vehicle.cylinderCapacity}"
+            android:hint="@string/loading_cylinder"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPlateVehicle" />
+
+        <TextView
+            android:id="@+id/tvArrivalDateVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/loading_date"
+            android:text="@{rental.arrivalDate.toString()}"
+            android:textColor="@android:color/holo_green_dark"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCylinderVehicle" />
+
+        <TextView
+            android:id="@+id/tvDepartureDateVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/loading_date"
+            android:text="@{rental.departureDate.toString()}"
+            android:textColor="@android:color/holo_red_dark"
+            app:visibility="@{rental.active}"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvArrivalDateVehicle" />
+
+        <TextView
+            android:id="@+id/tvPriceVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/calculating_price"
+            app:valuePrice="@{rental.price}"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:visibility="@{rental.active}"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDepartureDateVehicle" />
+
+
+        <Button
+            android:id="@+id/btnMakePayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/make_payment"
+            android:textAllCaps="false"
+            android:layout_marginTop="@dimen/twenty_dp"
+            app:visibility="@{!rental.active}"
+            app:layout_constraintTop_toBottomOf="@id/tvPriceVehicle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

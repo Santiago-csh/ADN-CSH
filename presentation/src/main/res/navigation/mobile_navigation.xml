@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_list_rental">
+
+    <fragment
+        android:id="@+id/navigation_list_rental"
+        android:name="com.ceiba.adn_csh.rental.RentalListFragment"
+        android:label="@string/title_list_rental"
+        tools:layout="@layout/rental_list_fragment">
+
+        <action
+            android:id="@+id/actionRentalDetailFragment"
+            app:destination="@id/navigation_detail_rental" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_create_rental"
+        android:name="com.ceiba.adn_csh.rental.RentalCreateFragment"
+        android:label="@string/title_create_rental"
+        tools:layout="@layout/rental_create_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_detail_rental"
+        android:name="com.ceiba.adn_csh.rental.RentalDetailFragment"
+        android:label="@string/title_detail_rental"
+        tools:layout="@layout/fragment_rental_detail" />
+
+</navigation>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Parqueadero</string>
+    <string name="title_activity_dashboard">MainActivity</string>
+    <string name="title_list_rental">Alquileres</string>
+    <string name="title_create_rental">Crear Alquiler</string>
+    <string name="title_detail_rental">Detalle Alquiler</string>
+    <string name="plate">Placa</string>
+    <string name="cylinder_capacity">Cilindraje</string>
+    <string name="add">Agregar</string>
+    <string name="loading_date">Cargando fecha…</string>
+    <string name="loading_plate">Cargando placa…</string>
+    <string name="loading_cylinder">Cargando cilindraje…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="calculating_price">Calculando precio…</string>
+    <string name="make_payment">Realizar pago</string>
+    <string name="car">AUTOMOVIL</string>
+    <string name="motorcycle">MOTOCICLETA</string>
+    <string name="successful_registration">Registro exitoso.</string>
+    <string name="you_must_enter_the_cylinder">Debes ingresar el cilindraje.</string>
+    <string name="you_must_enter_the_plate">Debes ingresar la placa.</string>
+    <string name="rent_could_not_be_added_please_try_again_later">El alquiler no se pudo agregar, intentalo mas tarde.</string>
+    <string name="successful_payment">Pago exitoso.</string>
+    <string name="rental">rental</string>
+    <string name="something_went_wrong_try_again_later">Algo salio mal, intentalo mas tarde</string>
+</resources>

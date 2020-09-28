@@ -1,0 +1,47 @@
+package com.ceiba.adn_csh.common
+
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import com.ceiba.adn_csh.R
+import com.squareup.picasso.Picasso
+import java.lang.StringBuilder
+import java.text.NumberFormat
+import java.util.*
+
+object BindingAdapters {
+
+    private var vehicleTypeImage: Map<String, Int> = mapOf(
+        "AUTOMOVIL" to R.drawable.ic_baseline_directions_car_black_24,
+        "MOTOCICLETA" to R.drawable.ic_baseline_motorcycle_black_24)
+
+    @JvmStatic
+    @BindingAdapter("imageUrl")
+    fun bindImageVehicle(imageView: ImageView, vehicleType: String?) {
+        for ((key, value) in vehicleTypeImage) {
+            if (key == vehicleType) {
+                Picasso.get().load(value).error(value).into(imageView)
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("visibility")
+    fun visible(view: View, activeVehicle: Boolean) {
+        view.visibility = if(!activeVehicle) View.VISIBLE else View.GONE
+    }
+
+    @JvmStatic
+    @BindingAdapter("valuePrice")
+    fun bindPriceVehicle(textView: TextView, valuePrice: Double) {
+        val formatoImporte = NumberFormat.getCurrencyInstance(Locale("es","CO"))
+        textView.setText(StringBuilder().append("Precio: ").append(formatoImporte.format(valuePrice)))
+    }
+
+    @JvmStatic
+    @BindingAdapter("valueCylinder")
+    fun bindCylinderVehicle(textView: TextView, valueCylinder: Int) {
+        textView.setText(StringBuilder().append("Cilindraje: ").append(valueCylinder))
+    }
+}
