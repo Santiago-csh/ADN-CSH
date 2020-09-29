@@ -98,17 +98,12 @@ class RentalServiceTest {
 
     @Test
     fun crearAlquilerValidacionPrimeraLetraPlaca(){
-        val alquiler = RentalBuilder().createRentCarValidationFirstLetter()
         val diaActual = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-        if((diaActual != Calendar.MONDAY && diaActual != Calendar.SUNDAY)){
+        if(diaActual != Calendar.MONDAY && diaActual != Calendar.SUNDAY){
             exceptionRule.expect(BusinessException::class.java)
             exceptionRule.expectMessage(messageYourEntryIsNotAuthorized)
-            servicioCrearAlquiler.createRental(alquiler)
-            Mockito.verify(rentalRepository, Mockito.times(0)).createRental(alquiler)
-        }else{
-            servicioCrearAlquiler.createRental(alquiler)
-            Mockito.verify(rentalRepository, Mockito.times(1)).createRental(alquiler)
         }
+        RentalBuilder().createRentCarValidationFirstLetter()
     }
 
     @Test
