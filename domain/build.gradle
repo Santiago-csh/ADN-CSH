@@ -31,10 +31,6 @@ android {
     }
 }
 
-jacoco {
-    version "0.7.1.201405082137"
-}
-
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."

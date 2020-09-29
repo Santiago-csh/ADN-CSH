@@ -13,10 +13,18 @@ buildscript {
     }
 }
 
+apply plugin: 'jacoco'
+
 allprojects {
     repositories {
         google()
         jcenter()
+    }
+
+    apply plugin: 'jacoco'
+
+    jacoco {
+        version "0.7.1.201405082137"
     }
 }
 
