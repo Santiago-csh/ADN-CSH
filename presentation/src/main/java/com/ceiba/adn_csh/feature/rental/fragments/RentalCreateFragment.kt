@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.rental
+package com.ceiba.adn_csh.feature.rental.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,11 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ceiba.adn_csh.R
-import com.ceiba.adn_csh.databinding.RentalCreateFragmentBinding
-import com.ceiba.adn_csh.viewmodel.RentalViewModel
+import com.ceiba.adn_csh.databinding.FragmentCreateRentalBinding
+import com.ceiba.adn_csh.feature.rental.viewmodel.RentalViewModel
 import com.ceiba.domain.exception.BusinessException
 import com.ceiba.domain.model.Rental
 import com.ceiba.domain.model.Vehicle
@@ -23,12 +24,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
-import java.util.*
 import javax.inject.Inject
 
 class RentalCreateFragment : Fragment() {
 
-    private lateinit var rentalCreateFragmentBinding: RentalCreateFragmentBinding
+    private lateinit var rentalCreateFragmentBinding: FragmentCreateRentalBinding
 
     @Inject
     lateinit var modelViewFactory: ViewModelProvider.Factory
@@ -42,7 +42,7 @@ class RentalCreateFragment : Fragment() {
         super.onAttach(context)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rentalCreateFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.rental_create_fragment, container, false)
+        rentalCreateFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_create_rental, container, false)
         return rentalCreateFragmentBinding.root
     }
 
@@ -60,34 +60,28 @@ class RentalCreateFragment : Fragment() {
 
     private fun getDataFormToCreateRental() {
         val plate = rentalCreateFragmentBinding.etPlateVehicle.text.toString()
-        val cylinderCapacity = rentalCreateFragmentBinding.etCylinderCapacityVehicle.text.toString()
+        var cylinderCapacity = rentalCreateFragmentBinding.etCylinderCapacityVehicle.text.toString()
         val typeVehicle = rentalCreateFragmentBinding.spinnerVehicleType.selectedItem.toString()
-        if(plate.isEmpty()){
-            Toast.makeText(requireActivity(), getString(R.string.you_must_enter_the_plate), Toast.LENGTH_SHORT).show()
-            return
-        }
         if(cylinderCapacity.isEmpty()){
-            Toast.makeText(requireActivity(), getString(R.string.you_must_enter_the_cylinder), Toast.LENGTH_SHORT).show()
-            return
+            cylinderCapacity = "0"
         }
         createRental(plate, cylinderCapacity.toInt(), typeVehicle)
     }
 
     private fun createRental(plate: String, cylinderCapacity: Int, typeVehicle: String) {
-        lifecycleScope.launch {
-            try {
-                val vehicle = Vehicle(plate, cylinderCapacity, typeVehicle)
-                val rental = Rental(id = 0, vehicle = vehicle, arrivalDate = Date(), departureDate = Date(), price = 0.0, active = true)
-                withContext(Dispatchers.IO){ rentalViewModel.createRental(rental) }
+        try {
+            val vehicle = Vehicle(plate, cylinderCapacity, typeVehicle)
+            val rental = Rental(id = 0, vehicle = vehicle)
+            rentalViewModel.createRental(rental).observe(requireActivity(), Observer {
                 Toast.makeText(requireActivity(), getString(R.string.successful_registration), Toast.LENGTH_SHORT).show()
                 rentalCreateFragmentBinding.etPlateVehicle.setText("")
                 rentalCreateFragmentBinding.etCylinderCapacityVehicle.setText("")
-            }catch (e: BusinessException){
-                Toast.makeText(requireActivity(), e.message, Toast.LENGTH_SHORT).show()
-            }catch (e: Exception){
-                Log.e("CreateRental", e.message, e)
-                Toast.makeText(requireActivity(), getString(R.string.rent_could_not_be_added_please_try_again_later), Toast.LENGTH_SHORT).show()
-            }
+            })
+        }catch (e: BusinessException){
+            Toast.makeText(requireActivity(), e.message, Toast.LENGTH_SHORT).show()
+        }catch (e: Exception){
+            Log.e("CreateRental", e.message, e)
+            Toast.makeText(requireActivity(), getString(R.string.rent_could_not_be_added_please_try_again_later), Toast.LENGTH_SHORT).show()
         }
     }
 }

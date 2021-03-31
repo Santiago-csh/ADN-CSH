@@ -1,5 +1,5 @@
 package com.ceiba.domain.exception
 
-import com.ceiba.domain.exception.BusinessException
+private const val RENTED_VEHICLE_MESSAGE = "El vehiculo ya se encuentra alquilado."
 
-class RentedVehicleException(message: String): BusinessException(message)
+class RentedVehicleException: BusinessException(RENTED_VEHICLE_MESSAGE)

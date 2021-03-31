@@ -2,7 +2,6 @@ package com.ceiba.infraestructure.db.dao
 
 import androidx.room.*
 import com.ceiba.infraestructure.db.entity.RentalEntity
-import io.reactivex.Observable
 
 @Dao interface RentalDao {
 
@@ -18,7 +17,11 @@ import io.reactivex.Observable
     @Query("SELECT COUNT(*) FROM rental r WHERE r.vehicle_vehicleType LIKE :vehicleType AND r.active = 1")
     fun getQuantityOfRentedVehiclesByType(vehicleType: String): Int
 
+    @Query("SELECT * FROM rental r WHERE r.id = :idRental")
+    fun getRental(idRental: Long): RentalEntity
+
+
     @Query("SELECT * FROM rental r WHERE r.active = 1")
-    fun getActiveRentals(): Observable<List<RentalEntity>>
+    fun getActiveRentals(): List<RentalEntity>
 
 }

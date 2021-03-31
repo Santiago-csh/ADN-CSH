@@ -14,44 +14,22 @@ class VehicleBuilder {
         this.vehicleType = "AUTOMOVIL"
     }
 
-    fun createCarPlateGood(): Vehicle{
-        return bindVehicleCar(plate)
-    }
-
-    fun createCarPlateBad(): Vehicle{
-        return bindVehicleCar("I5S8T")
-    }
-
-    fun createCarValidationFirstLetter(): Vehicle{
-        return bindVehicleCar("ACJ192")
-    }
-
-    fun createMotorcyclePlateGood(): Vehicle{
-        return bindVehicleMotorcycle("DCF15B", cylinderCapacity)
-    }
-
-    fun createMotorcyclePlateBad(): Vehicle{
-        return bindVehicleMotorcycle("IYG855", cylinderCapacity)
-    }
-
-    fun createMotorcycleCylinderCapacityLessOrEqualsThanFiveHundred(): Vehicle{
-        return bindVehicleMotorcycle("IYG85Y", 500)
-    }
-
-    fun createMotorcycleCylinderCapacityGreaterThanFiveHundred(): Vehicle{
-        return bindVehicleMotorcycle("IYG85G", cylinderCapacity)
-    }
-
-    fun bindVehicleCar(plate: String): Vehicle{
+    fun withPlate(plate: String): VehicleBuilder {
         this.plate = plate
-        this.vehicleType = "AUTOMOVIL"
-        return Vehicle(plate, cylinderCapacity, vehicleType)
+        return this
     }
 
-    fun bindVehicleMotorcycle(plate: String, cylinderCapacity: Int): Vehicle{
-        this.plate = plate
+    fun withCylinderCapacity(cylinderCapacity: Int): VehicleBuilder {
         this.cylinderCapacity = cylinderCapacity
-        this.vehicleType = "MOTOCICLETA"
+        return this
+    }
+
+    fun withVehicleType(vehicleType: String): VehicleBuilder {
+        this.vehicleType = vehicleType
+        return this
+    }
+
+    fun build(): Vehicle{
         return Vehicle(plate, cylinderCapacity, vehicleType)
     }
 

@@ -1,5 +1,5 @@
 package com.ceiba.domain.exception
 
-import com.ceiba.domain.exception.BusinessException
+private const val UNAUTHORIZED_ENTRY_MESSAGE = "No esta autorizado tu ingreso."
 
-class FirstPlateLetterException(message: String): BusinessException(message)
+class FirstPlateLetterException: BusinessException(UNAUTHORIZED_ENTRY_MESSAGE)

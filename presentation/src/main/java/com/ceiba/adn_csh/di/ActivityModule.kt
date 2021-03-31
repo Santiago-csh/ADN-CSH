@@ -1,6 +1,6 @@
 package com.ceiba.adn_csh.di
 
-import com.ceiba.adn_csh.rental.DashboardActivity
+import com.ceiba.adn_csh.feature.rental.activities.DashboardActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

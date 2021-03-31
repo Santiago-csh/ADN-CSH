@@ -1,8 +1,10 @@
 package com.ceiba.domain.service
 
 import com.ceiba.domain.build.RentalBuilder
-import com.ceiba.adn_csh.domain.repository.RentalRepository
-import com.ceiba.domain.exception.BusinessException
+import com.ceiba.domain.build.VehicleBuilder
+import com.ceiba.domain.exception.ParkingSpaceException
+import com.ceiba.domain.repository.RentalRepository
+import com.ceiba.domain.exception.RentedVehicleException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -12,7 +14,14 @@ import org.mockito.*
 import java.lang.StringBuilder
 import java.util.*
 
+const val PARKING_LOT_DOES_NOT_HAVE_SPACE_FOR_VEHICLE_MESSAGE  = "Lo sentimos, el parqueadero no tiene espacio para "
+
 class RentalServiceTest {
+
+    companion object {
+        const val CAR = "AUTOMOVIL"
+        const val MOTORCYCLE = "MOTOCICLETA"
+    }
 
     @InjectMocks
     lateinit var servicioCrearAlquiler: RentalServiceImpl
@@ -20,191 +29,140 @@ class RentalServiceTest {
     @Mock
     lateinit var rentalRepository: RentalRepository
 
-    private lateinit var messageVehicleIsAlreadyRented: String
-    private lateinit var messageParkingLotDoesNotHaveSpaceForVehcile: String
-    private lateinit var messageLicensePlateOfTheVehicleIsNotValid: String
-    private lateinit var messageYourEntryIsNotAuthorized: String
-    private lateinit var messageCreateRentalTest: String
-
-
     @Before
     fun initialization(){
         MockitoAnnotations.initMocks(this)
         Mockito.mock(RentalRepository::class.java)
 
-        messageVehicleIsAlreadyRented = "El vehiculo ya se encuentra alquilado."
-        messageParkingLotDoesNotHaveSpaceForVehcile = "Lo sentimos, el parqueadero no tiene espacio para "
-        messageLicensePlateOfTheVehicleIsNotValid = "La placa ingresada no es valida."
-        messageYourEntryIsNotAuthorized = "No esta autorizado tu ingreso."
-        messageCreateRentalTest = "createRentalTest"
     }
 
     @Rule @JvmField
     var exceptionRule: ExpectedException = ExpectedException.none()
 
     @Test
-    fun crearAlquilerYaExistente(){
-        val alquiler = RentalBuilder().createRentCarPlateGood()
-        Mockito.`when`(rentalRepository.rentedVehicle(alquiler.vehicle.plate)).thenReturn(true)
-        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(alquiler.vehicle.vehicleType)).thenReturn(10)
+    fun given_Vehicle_Already_Exists_When_CreateRental_Is_Called_Then_It_Must_Return_RentedVehicleException(){
+        // Arrange
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("EES999")
+                    .withVehicleType(CAR)
+                    .build()
+            ).build()
+        Mockito.`when`(rentalRepository.rentedVehicle(rental.vehicle.plate)).thenReturn(true)
+        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(rental.vehicle.vehicleType)).thenReturn(10)
 
-        exceptionRule.expect(BusinessException::class.java)
-        exceptionRule.expectMessage(messageVehicleIsAlreadyRented)
+        // Assert
+        exceptionRule.expect(RentedVehicleException::class.java)
+        exceptionRule.expectMessage("El vehiculo ya se encuentra alquilado.")
 
-        servicioCrearAlquiler.createRental(alquiler)
+        // Act
+        servicioCrearAlquiler.createRental(rental)
     }
 
     @Test
-    fun crearAlquilerValidacionEspacioParqueaderoAutomovil(){
-        val alquiler = RentalBuilder().createRentCarPlateGood()
-        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(alquiler.vehicle.vehicleType)).thenReturn(20)
+    fun given_There_Is_Not_Space_For_Cars_When_CreateRental_Is_Called_Then_It_Must_Return_ParkingSpaceException(){
+        // Arrange
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("EHS939")
+                    .withVehicleType(CAR)
+                    .build()
+            ).build()
+        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(rental.vehicle.vehicleType)).thenReturn(20)
 
-        exceptionRule.expect(BusinessException::class.java)
+        // Assert
+        exceptionRule.expect(ParkingSpaceException::class.java)
         exceptionRule.expectMessage(
-            StringBuilder().append(messageParkingLotDoesNotHaveSpaceForVehcile).append("${alquiler.vehicle.vehicleType.toLowerCase()}.").toString()
+            StringBuilder().append(PARKING_LOT_DOES_NOT_HAVE_SPACE_FOR_VEHICLE_MESSAGE).append("${rental.vehicle.vehicleType.toLowerCase()}.").toString()
         )
 
-        servicioCrearAlquiler.createRental(alquiler)
+        // Act
+        servicioCrearAlquiler.createRental(rental)
     }
 
     @Test
-    fun crearAlquilerValidacionEspacioParqueaderoMotocicleta(){
-        val alquiler = RentalBuilder().createRentMotorcyclePlateGood()
-        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(alquiler.vehicle.vehicleType)).thenReturn(10)
+    fun given_There_Is_Not_Space_For_Motorcycles_When_CreateRental_Is_Called_Then_It_Must_Return_ParkingSpaceException(){
+        // Arrange
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("DCF15B")
+                    .withVehicleType(MOTORCYCLE)
+                    .build()
+            ).build()
+        Mockito.`when`(rentalRepository.getQuantityOfRentedVehiclesByType(rental.vehicle.vehicleType)).thenReturn(10)
 
-        exceptionRule.expect(BusinessException::class.java)
+        // Assert
+        exceptionRule.expect(ParkingSpaceException::class.java)
         exceptionRule.expectMessage(
-            StringBuilder().append(messageParkingLotDoesNotHaveSpaceForVehcile).append("${alquiler.vehicle.vehicleType.toLowerCase()}.").toString()
+            StringBuilder().append(PARKING_LOT_DOES_NOT_HAVE_SPACE_FOR_VEHICLE_MESSAGE).append("${rental.vehicle.vehicleType.toLowerCase()}.").toString()
         )
 
-        servicioCrearAlquiler.createRental(alquiler)
+        // Act
+        servicioCrearAlquiler.createRental(rental)
     }
 
     @Test
-    fun crearAlquilerMalPorPlacaAutomovil(){
-        try {
-            RentalBuilder().createRentCarPlateBad()
-        }catch (e: BusinessException){
-            Assert.assertEquals(messageLicensePlateOfTheVehicleIsNotValid, e.message)
-        }
+    fun given_A_Motorcycle_Rent_When_CreateRental_Is_Called_Then_The_Rental_Id_Must_Be_Non_Zero(){
+        // Arrange
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("DLF65B")
+                    .withVehicleType(MOTORCYCLE)
+                    .build()
+            ).build()
+        Mockito.`when`(rentalRepository.createRental(rental)).thenReturn(1)
+
+        // Act
+        val idRental = servicioCrearAlquiler.createRental(rental)
+
+        // Assert
+        Assert.assertTrue(idRental != 0L)
     }
 
     @Test
-    fun crearAlquilerMalPorPlacaMotocicleta(){
-        exceptionRule.expect(BusinessException::class.java)
-        exceptionRule.expectMessage(messageLicensePlateOfTheVehicleIsNotValid)
-        RentalBuilder().createRentMotorcyclePlateBad()
-    }
+    fun given_The_Price_Of_A_Car_Rental_When_CalculateVehiclePrice_Is_Called_Then_It_Must_Return_That_Price(){
+        // Arrange
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.HOUR] = calendar[Calendar.HOUR] + 32
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("ILG853")
+                    .withVehicleType(CAR)
+                    .build()
+            ).withDepartureDate(calendar.time)
+            .build()
 
-    @Test
-    fun crearAlquilerValidacionPrimeraLetraPlaca(){
-        val diaActual = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-        if(diaActual != Calendar.MONDAY && diaActual != Calendar.SUNDAY){
-            exceptionRule.expect(BusinessException::class.java)
-            exceptionRule.expectMessage(messageYourEntryIsNotAuthorized)
-        }
-        RentalBuilder().createRentCarValidationFirstLetter()
-    }
-
-    @Test
-    fun crearAlquilerMotocicleta(){
-        val alquiler = RentalBuilder().createRentMotorcyclePlateGood()
-
-        servicioCrearAlquiler.createRental(alquiler)
-
-        Mockito.verify(rentalRepository, Mockito.times(1)).createRental(alquiler)
-    }
-
-    @Test
-    fun getCarPriceWithHoursAndMinutes(){
-        val rental = RentalBuilder().createRentCarWithHoursAndMinutes()
-        val timeInParking = (rental.departureDate.time - rental.arrivalDate.time)
-        val minutesInParking = timeInParking / 60000
-        var hoursInParking = minutesInParking / 60
-        if((minutesInParking - (hoursInParking*60)) > 0){
-            hoursInParking += 1
-        }
-        val expectedPrice = (hoursInParking * 1000)
-
+        // Act
         val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
 
-        Assert.assertEquals(expectedPrice, response.toLong())
-    }
-
-    @Test
-    fun getCarPriceWithHoursAndWithoutDays(){
-        val rental = RentalBuilder().createRentCarWithHoursAndWithoutDays()
-        val timeInParking = (rental.departureDate.time - rental.arrivalDate.time)
-        val hoursInParking = timeInParking / 3600000
-        val expectedPrice = (hoursInParking * 1000)
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
-        Assert.assertEquals(expectedPrice, response.toLong())
-    }
-
-    @Test
-    fun getCarPriceWithDaysAndWithoutHours(){
-        val rental = RentalBuilder().createRentCarWithDaysAndWithoutHours()
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
+        // Assert
         Assert.assertEquals(16000, response.toLong())
     }
 
     @Test
-    fun getCarPriceWithDaysAndHours(){
-        val rental = RentalBuilder().createRentCarWithDaysAndHours()
+    fun given_The_Price_Of_A_Motorcycle_Rental_With_A_Cylinder_Capacity_Greater_Than_Five_Hundred_When_CalculateVehiclePrice_Is_Called_Then_It_Must_Return_That_Price(){
+        // Arrange
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.HOUR] = calendar[Calendar.HOUR] + 127
+        val rental = RentalBuilder()
+            .withVehicle(
+                VehicleBuilder()
+                    .withPlate("IYG85G")
+                    .withCylinderCapacity(550)
+                    .withVehicleType(MOTORCYCLE)
+                    .build()
+            ).withDepartureDate(calendar.time)
+            .build()
 
+        // Act
         val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
 
-        Assert.assertEquals(15000, response.toLong())
-    }
-
-    @Test
-    fun getMotorcyclePriceCylinderCapacityOfGreaterThanFiveHundredWithHoursAndMinutes(){
-        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityOfGreaterThanFiveHundredWithHoursAndMinutes()
-        val timeInParking = (rental.departureDate.time - rental.arrivalDate.time)
-        val minutesInParking = timeInParking / 60000
-        var hoursInParking = minutesInParking / 60
-        if((minutesInParking - (hoursInParking*60)) > 0){
-            hoursInParking = hoursInParking + 1
-        }
-        val expectedPrice = (hoursInParking * 500) + 2000
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
-        Assert.assertEquals(expectedPrice, response.toLong())
-    }
-
-    @Test
-    fun getMotorcyclePriceWithCylinderCapacityOfLessOrEqualsThanFiveHundredWithHoursAndWithoutDays(){
-        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityLessOrEqualsThanFiveHundredWithHoursAndWithoutDays()
-        val timeInParking = (rental.departureDate.time - rental.arrivalDate.time)
-        val hoursInParking = timeInParking / 3600000
-        val expectedPrice = (hoursInParking * 500)
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
-        Assert.assertEquals(expectedPrice, response.toLong())
-    }
-
-    @Test
-    fun getMotorcyclePriceWithCylinderCapacityOfGreaterThanFiveHundredWithDaysAndWithoutHours(){
-        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndWithoutHours()
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
-        Assert.assertEquals(18000, response.toLong())
-    }
-
-    @Test
-    fun getMotorcyclePriceWithCylinderCapacityOfGreaterThanFiveHundredWithHoursAndDays(){
-        val rental = RentalBuilder().createRentMotorcycleCylinderCapacityGreaterThanFiveHundredWithDaysAndHours()
-
-        val response = servicioCrearAlquiler.calculateVehiclePrice(rental)
-
+        // Assert
         Assert.assertEquals(25500, response.toLong())
     }
-
 }

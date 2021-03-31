@@ -1,5 +1,7 @@
 package com.ceiba.domain.exception
 
-import com.ceiba.domain.exception.BusinessException
+import java.lang.StringBuilder
 
-class ParkingSpaceException(message: String): BusinessException(message)
+private const val PARKING_SPACE_MESSAGE = "Lo sentimos, el parqueadero no tiene espacio para "
+
+class ParkingSpaceException(vehicleType: String): BusinessException(StringBuilder().append(PARKING_SPACE_MESSAGE).append("${vehicleType}.").toString())

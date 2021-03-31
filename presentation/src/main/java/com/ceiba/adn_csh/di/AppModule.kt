@@ -2,12 +2,12 @@ package com.ceiba.adn_csh.di
 
 import android.app.Application
 import androidx.room.Room
-import com.ceiba.adn_csh.domain.repository.RentalRepository
+import com.ceiba.domain.repository.RentalRepository
 import com.ceiba.domain.service.RentalService
 import com.ceiba.domain.service.RentalServiceImpl
 import com.ceiba.infraestructure.db.Database
 import com.ceiba.infraestructure.db.dao.RentalDao
-import com.ceiba.infraestructure.repositoryImpl.RentalRepositoryImpl
+import com.ceiba.infraestructure.repository.RentalRepositoryRoom
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -36,7 +36,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideRentalRepository(rentalDao: RentalDao): RentalRepository {
-        return RentalRepositoryImpl(rentalDao)
+        return RentalRepositoryRoom(rentalDao)
     }
 
 }

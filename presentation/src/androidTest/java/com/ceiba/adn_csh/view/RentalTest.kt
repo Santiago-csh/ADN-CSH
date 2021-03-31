@@ -4,7 +4,7 @@ import android.view.View
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.ceiba.adn_csh.ObjectUtils
 import com.ceiba.adn_csh.R
-import com.ceiba.adn_csh.rental.DashboardActivity
+import com.ceiba.adn_csh.feature.rental.activities.DashboardActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +16,8 @@ class RentalTest {
 
     @Rule
     @JvmField
-    val activityScenarioRule: ActivityScenarioRule<DashboardActivity> = ActivityScenarioRule(DashboardActivity::class.java)
+    val activityScenarioRule: ActivityScenarioRule<DashboardActivity> = ActivityScenarioRule(
+        DashboardActivity::class.java)
     private lateinit var decorView: View
 
     private lateinit var messageYouMustEnterThePlate: String

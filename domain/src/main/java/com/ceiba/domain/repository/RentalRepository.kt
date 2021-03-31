@@ -1,14 +1,14 @@
-package com.ceiba.adn_csh.domain.repository
+package com.ceiba.domain.repository
 
 import com.ceiba.domain.model.Rental
-import io.reactivex.Observable
 
 interface RentalRepository {
 
-    fun createRental(rental: Rental)
+    fun createRental(rental: Rental): Long
     fun rentedVehicle(plate: String): Boolean
     fun getQuantityOfRentedVehiclesByType(vehicleType: String): Int
-    fun getActiveRentals(): Observable<List<Rental>>
+    fun getActiveRentals(): List<Rental>
+    fun getRental(idRental: Long): Rental
     fun updateRentalMakePayment(rental: Rental)
 
 }

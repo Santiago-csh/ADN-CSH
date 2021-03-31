@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.common
+package com.ceiba.adn_csh.databound
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

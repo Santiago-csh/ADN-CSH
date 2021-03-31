@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_list_rental"
-        android:name="com.ceiba.adn_csh.rental.RentalListFragment"
+        android:name="com.ceiba.adn_csh.feature.rental.fragments.RentalListFragment"
         android:label="@string/title_list_rental"
-        tools:layout="@layout/rental_list_fragment">
+        tools:layout="@layout/fragment_rental_list">
 
         <action
             android:id="@+id/actionRentalDetailFragment"
@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/navigation_create_rental"
-        android:name="com.ceiba.adn_csh.rental.RentalCreateFragment"
+        android:name="com.ceiba.adn_csh.feature.rental.fragments.RentalCreateFragment"
         android:label="@string/title_create_rental"
-        tools:layout="@layout/rental_create_fragment" />
+        tools:layout="@layout/fragment_create_rental" />
 
     <fragment
         android:id="@+id/navigation_detail_rental"
-        android:name="com.ceiba.adn_csh.rental.RentalDetailFragment"
+        android:name="com.ceiba.adn_csh.feature.rental.fragments.RentalDetailFragment"
         android:label="@string/title_detail_rental"
         tools:layout="@layout/fragment_rental_detail" />
 

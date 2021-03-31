@@ -1,24 +1,26 @@
 package com.ceiba.domain.service
 
 import com.ceiba.domain.model.Rental
-import com.ceiba.adn_csh.domain.repository.RentalRepository
-import com.ceiba.domain.service.businessresponsabilitychain.calculatepricevehicle.PricePerTime
-import com.ceiba.domain.service.businessresponsabilitychain.calculatepricevehicle.PricePerCylinder
-import com.ceiba.domain.service.businessresponsabilitychain.validationscreaterental.ParkingSpace
-import com.ceiba.domain.service.businessresponsabilitychain.validationscreaterental.RentedVehicle
-import io.reactivex.Observable
+import com.ceiba.domain.repository.RentalRepository
+import com.ceiba.domain.service.businesscomposite.calculatepricevehicle.CalculatePriceComposite
+import com.ceiba.domain.service.businesscomposite.calculatepricevehicle.PricePerTime
+import com.ceiba.domain.service.businesscomposite.calculatepricevehicle.PricePerCylinder
+import com.ceiba.domain.service.businesscomposite.validationscreaterental.CreateRentalComposite
+import com.ceiba.domain.service.businesscomposite.validationscreaterental.ParkingSpace
+import com.ceiba.domain.service.businesscomposite.validationscreaterental.RentedVehicleLeaf
 import java.util.*
 import javax.inject.Inject
 
 class RentalServiceImpl @Inject constructor(private var rentalRepository: RentalRepository): RentalService {
 
-    override fun createRental(rental: Rental) {
+    override fun createRental(rental: Rental): Long {
         val vehicleExists = rentalRepository.rentedVehicle(rental.vehicle.plate)
-        val quantity = rentalRepository.getQuantityOfRentedVehiclesByType(rental.vehicle.vehicleType)
-        val parkingSpace = ParkingSpace(quantity)
-        val rentedVehicle = RentedVehicle(vehicleExists, parkingSpace)
-        rentedVehicle.validation(rental)
-        rentalRepository.createRental(rental)
+        val quantityOfRentedVehicles = rentalRepository.getQuantityOfRentedVehiclesByType(rental.vehicle.vehicleType)
+        val createRentalComposite = CreateRentalComposite()
+        createRentalComposite.add(ParkingSpace(quantityOfRentedVehicles))
+        createRentalComposite.add(RentedVehicleLeaf(vehicleExists))
+        createRentalComposite.execute(rental)
+        return rentalRepository.createRental(rental)
     }
 
     override fun updateRentalMakePayment(rental: Rental): Rental {
@@ -29,14 +31,18 @@ class RentalServiceImpl @Inject constructor(private var rentalRepository: Rental
         return rental
     }
 
-
-    override fun getActiveRentals(): Observable<List<Rental>> {
+    override fun getActiveRentals(): List<Rental> {
         return rentalRepository.getActiveRentals()
     }
 
+    override fun getRental(idRental: Long): Rental {
+        return rentalRepository.getRental(idRental)
+    }
+
     fun calculateVehiclePrice(rental: Rental): Double {
-        val pricePerCylinder = PricePerCylinder()
-        val pricePerTime = PricePerTime(pricePerCylinder)
-        return pricePerTime.calculatePrice(rental)
+        val calculatePriceComposite = CalculatePriceComposite()
+        calculatePriceComposite.add(PricePerCylinder())
+        calculatePriceComposite.add(PricePerTime())
+        return calculatePriceComposite.execute(rental)
     }
 }

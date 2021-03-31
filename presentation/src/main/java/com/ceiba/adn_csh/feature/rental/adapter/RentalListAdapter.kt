@@ -1,11 +1,11 @@
-package com.ceiba.adn_csh.rental
+package com.ceiba.adn_csh.feature.rental.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.ceiba.adn_csh.R
 import com.ceiba.adn_csh.databinding.RentalListItemBinding
-import com.ceiba.adn_csh.common.DataBoundListAdapter
+import com.ceiba.adn_csh.databound.DataBoundListAdapter
 import com.ceiba.domain.model.Rental
 import java.util.*
 
@@ -28,7 +28,7 @@ class RentalListAdapter(private var rentalDetailClickCallback: RentalDetailClick
 
     override fun areItemsTheSame(oldItem: Rental, newItem: Rental): Boolean {
         return Objects.equals(oldItem.id, newItem.id) &&
-                Objects.equals(oldItem.vehicle!!.plate!!, newItem.vehicle!!.plate!!)
+                Objects.equals(oldItem.vehicle.plate, newItem.vehicle.plate)
     }
 
     override fun areContentsTheSame(oldItem: Rental, newItem: Rental): Boolean {

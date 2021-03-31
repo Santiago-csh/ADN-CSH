@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.rental
+package com.ceiba.adn_csh.feature.rental.activities
 
 import android.os.Bundle
 import android.view.MenuItem

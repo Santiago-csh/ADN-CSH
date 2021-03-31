@@ -1,8 +1,8 @@
 package com.ceiba.adn_csh.di
 
-import com.ceiba.adn_csh.rental.RentalCreateFragment
-import com.ceiba.adn_csh.rental.RentalDetailFragment
-import com.ceiba.adn_csh.rental.RentalListFragment
+import com.ceiba.adn_csh.feature.rental.fragments.RentalCreateFragment
+import com.ceiba.adn_csh.feature.rental.fragments.RentalDetailFragment
+import com.ceiba.adn_csh.feature.rental.fragments.RentalListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

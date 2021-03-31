@@ -1,4 +1,4 @@
-package com.ceiba.adn_csh.common
+package com.ceiba.adn_csh.bindingadapter
 
 import android.view.View
 import android.widget.ImageView
@@ -10,16 +10,18 @@ import java.lang.StringBuilder
 import java.text.NumberFormat
 import java.util.*
 
-object BindingAdapters {
+private const val CAR = "AUTOMOVIL"
+private const val MOTORCYCLE = "MOTOCICLETA"
+private const val CAR_IMAGE = R.drawable.ic_baseline_directions_car_black_24
+private const val MOTORCYCLE_IMAGE = R.drawable.ic_baseline_motorcycle_black_24
+private val VEHICLE_IMAGE_TYPE = mapOf(CAR to CAR_IMAGE, MOTORCYCLE to MOTORCYCLE_IMAGE)
 
-    private var vehicleTypeImage: Map<String, Int> = mapOf(
-        "AUTOMOVIL" to R.drawable.ic_baseline_directions_car_black_24,
-        "MOTOCICLETA" to R.drawable.ic_baseline_motorcycle_black_24)
+object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun bindImageVehicle(imageView: ImageView, vehicleType: String?) {
-        for ((key, value) in vehicleTypeImage) {
+        for ((key, value) in VEHICLE_IMAGE_TYPE) {
             if (key == vehicleType) {
                 Picasso.get().load(value).error(value).into(imageView)
             }
